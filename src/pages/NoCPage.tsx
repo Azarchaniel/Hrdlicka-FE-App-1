@@ -7,7 +7,7 @@ interface Props {
     onError: (error: string) => void;
 }
 
-const NoC = ({onSubmit, onError}: Props) => {
+const NoCPage = ({onSubmit, onError}: Props) => {
     const [value, setValue] = useState<string | number>("0");
     const [error, setError] = useState<string>("");
 
@@ -22,7 +22,9 @@ const NoC = ({onSubmit, onError}: Props) => {
 
         if (!isPositiveInteger(numVal)) {
             setError("Value has to be positive integer")
-        } else if (!(20 <= numVal && numVal <= 60)) {
+
+            //TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA change back 1 -> 20
+        } else if (!(1 <= numVal && numVal <= 60)) {
             setError("Value has to be between 20 and 60")
         } else {
             setError("");
@@ -46,8 +48,14 @@ const NoC = ({onSubmit, onError}: Props) => {
                 helperText={error}
                 value={value}
                 error={Boolean(error.length)}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setValue(event.target.value);}}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(Number(e.target.value))}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter') {
+                        //if there is no error, send value
+                        //@ts-ignore
+                        !error && onSubmit(Number(e.target.value));
+                    }
+                }}
             />
             <Button
                 variant="contained"
@@ -58,4 +66,4 @@ const NoC = ({onSubmit, onError}: Props) => {
     );
 }
 
-export default NoC;
+export default NoCPage;

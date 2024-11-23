@@ -1,13 +1,14 @@
 import {Card, Stack, TextField, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {ICalculation} from "../types";
 
 interface Props {
     calculation: ICalculation;
     isCorrect: (res: boolean) => void;
+    editable: boolean;
 }
 
-const CalculationCard = ({calculation, isCorrect}: Props) => {
+const CalculationCard = ({calculation, isCorrect, editable}: Props) => {
     const DEFAULT_STYLE = {} as const;
     const CORRECT_STYLE = {
         border: "2px solid green",
@@ -18,23 +19,15 @@ const CalculationCard = ({calculation, isCorrect}: Props) => {
         backgroundColor: "#FFCCCB",
     } as const;
 
-    const [result, setResult] = useState<number>();
-    const [correct, setCorrect] = useState<boolean>();
     const [cardStyle, setCardStyle] = useState<Object>(DEFAULT_STYLE);
 
+    const onSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        //@ts-ignore
+        const checkCalculation = Number(e.target?.value) === calculation.resultNumber;
 
-    useEffect(() => {
-        //FIXME: not useEffect, but onSubmit
-        if (!result) return;
-        setCorrect(result === calculation.resultNumber);
-    }, [result]);
-
-    useEffect(() => {
-        if (!result) return;
-        isCorrect(!!correct);
-        console.log(correct, result);
-        setCardStyle(correct ? CORRECT_STYLE : ERROR_STYLE);
-    }, [correct]);
+        isCorrect(checkCalculation);
+        setCardStyle(checkCalculation ? CORRECT_STYLE : ERROR_STYLE);
+    }
 
     return (
         <Card
@@ -62,14 +55,20 @@ const CalculationCard = ({calculation, isCorrect}: Props) => {
                 <Typography variant="h6">
                     =
                 </Typography>
+                {/* disabled - if the style is not empty or if it is editable, do not disable */}
                 <TextField
                     id="result"
                     style={{width: "3rem"}}
                     label=""
                     variant="outlined"
-                    value={result}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setResult(Number(event.target.value));}}
+                    disabled={Boolean(Object.keys(cardStyle)?.length) || !editable}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        //@ts-ignore
+                        if (e.key === 'Enter' && e.target.value) {
+                            e.preventDefault();
+                            onSubmit(e)
+                        }
+                    }}
                 />
             </Stack>
         </Card>)

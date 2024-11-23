@@ -1,16 +1,22 @@
 import React, {useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
 import CustomTabPanel from "../components/CustomTabPanel";
-import NoC from "./NoC";
-import Calculations from "./Calculations";
+import NoCPage from "./NoCPage";
+import CalculationsPage from "./CalculationsPage";
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [numberOfOperations, setNumberOfOperations] = useState<number>(0);
+    const [numberOfCalculations, setNumberOfCalculations] = useState<number>(0);
     const [error, setError] = useState<string>("");
 
-    const handleChange = (e: React.SyntheticEvent, newTab: number): void => {
+    const handleChange = (_: React.SyntheticEvent, newTab: number): void => {
         setActiveTab(newTab);
+    }
+
+    const onSubmitNoC = (noc: number) => {
+        if (!noc) return;
+        setNumberOfCalculations(noc);
+        setActiveTab(1);
     }
 
     return (
@@ -23,13 +29,13 @@ const Home: React.FC = () => {
             </Box>
 
             <CustomTabPanel value={activeTab} index={0}>
-                <NoC onSubmit={setNumberOfOperations} onError={setError} />
+                <NoCPage onSubmit={onSubmitNoC} onError={setError} />
             </CustomTabPanel>
             <CustomTabPanel value={activeTab} index={1}>
-                <Calculations numberOfCalculations={numberOfOperations} />
+                <CalculationsPage numberOfCalculations={numberOfCalculations} />
             </CustomTabPanel>
         </>
     )
 }
 
-export default Home;
+export default HomePage;
