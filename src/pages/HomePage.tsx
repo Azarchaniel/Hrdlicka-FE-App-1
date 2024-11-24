@@ -7,7 +7,6 @@ import CalculationsPage from "./CalculationsPage";
 const HomePage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<number>(0);
     const [numberOfCalculations, setNumberOfCalculations] = useState<number>(0);
-    const [error, setError] = useState<string>("");
 
     const handleChange = (_: React.SyntheticEvent, newTab: number): void => {
         setActiveTab(newTab);
@@ -24,12 +23,12 @@ const HomePage: React.FC = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={activeTab} onChange={handleChange} aria-label="basic tabs example" centered>
                     <Tab label="Home" />
-                    <Tab label="Calculations" disabled={!Boolean(error.length)} />
+                    <Tab label="Calculations" disabled={activeTab !== 1} aria-disabled={activeTab !== 1}/>
                 </Tabs>
             </Box>
 
             <CustomTabPanel value={activeTab} index={0}>
-                <NoCPage onSubmit={onSubmitNoC} onError={setError} />
+                <NoCPage onSubmit={onSubmitNoC} />
             </CustomTabPanel>
             <CustomTabPanel value={activeTab} index={1}>
                 <CalculationsPage numberOfCalculations={numberOfCalculations} />

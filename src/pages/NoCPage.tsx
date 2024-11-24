@@ -4,10 +4,9 @@ import {isPositiveInteger} from "../utils";
 
 interface Props {
     onSubmit: (value: number) => void;
-    onError: (error: string) => void;
 }
 
-const NoCPage = ({onSubmit, onError}: Props) => {
+const NoCPage = ({onSubmit}: Props) => {
     const [value, setValue] = useState<string | number>("0");
     const [error, setError] = useState<string>("");
 
@@ -22,14 +21,11 @@ const NoCPage = ({onSubmit, onError}: Props) => {
 
         if (!isPositiveInteger(numVal)) {
             setError("Value has to be positive integer")
-
-            //TODO: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA change back 1 -> 20
-        } else if (!(1 <= numVal && numVal <= 60)) {
+        } else if (!(20 <= numVal && numVal <= 60)) {
             setError("Value has to be between 20 and 60")
         } else {
             setError("");
         }
-        onError(error);
     }, [value]);
 
     return (

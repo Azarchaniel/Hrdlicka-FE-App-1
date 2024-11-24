@@ -1,4 +1,4 @@
-import {Card, Stack, TextField, Typography} from "@mui/material";
+import {Card, Stack, TextField, Tooltip, Typography} from "@mui/material";
 import React, {useState} from "react";
 import {ICalculation} from "../types";
 
@@ -11,12 +11,14 @@ interface Props {
 const CalculationCard = ({calculation, isCorrect, editable}: Props) => {
     const DEFAULT_STYLE = {} as const;
     const CORRECT_STYLE = {
-        border: "2px solid green",
+        outline: "2px solid green",
         backgroundColor: "lightgreen",
+        border: "1px solid transparent", //1 px - so the size is kept same; transparent - not interfering with outline color
     } as const;
     const ERROR_STYLE = {
-        border: "2px solid red",
+        outline: "2px solid red",
         backgroundColor: "#FFCCCB",
+        border: "1px solid transparent",
     } as const;
 
     const [cardStyle, setCardStyle] = useState<Object>(DEFAULT_STYLE);
@@ -32,6 +34,7 @@ const CalculationCard = ({calculation, isCorrect, editable}: Props) => {
     return (
         <Card
             variant="outlined"
+            className="calc-card"
             style={cardStyle}
         >
             <Stack
@@ -56,20 +59,24 @@ const CalculationCard = ({calculation, isCorrect, editable}: Props) => {
                     =
                 </Typography>
                 {/* disabled - if the style is not empty or if it is editable, do not disable */}
-                <TextField
-                    id="result"
-                    style={{width: "3rem"}}
-                    label=""
-                    variant="outlined"
-                    disabled={Boolean(Object.keys(cardStyle)?.length) || !editable}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                        //@ts-ignore
-                        if (e.key === 'Enter' && e.target.value) {
-                            e.preventDefault();
-                            onSubmit(e)
-                        }
-                    }}
-                />
+                <Tooltip title="Confirm with Enter">
+                    <TextField
+                        id="result"
+                        data-testid="result"
+                        inputProps={{ "data-testid": "result-input" }}
+                        style={{width: "3rem"}}
+                        label=""
+                        variant="outlined"
+                        disabled={Boolean(Object.keys(cardStyle)?.length) || !editable}
+                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                            //@ts-ignore
+                            if (e.key === 'Enter' && e.target.value) {
+                                e.preventDefault();
+                                onSubmit(e)
+                            }
+                        }}
+                    />
+                </Tooltip>
             </Stack>
         </Card>)
 }

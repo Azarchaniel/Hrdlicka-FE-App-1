@@ -48,8 +48,10 @@ const Timer = ({noc, stopCount, runOut}: Props) => {
                 alignItems: "center",
             }}
         >
-            <span>{time}s</span>
-            <TimerIcon/>
+            <span style={time < 6 ? {color: "red"} : {}}>
+                {time}s
+                <TimerIcon/>
+            </span>
         </Stack>
     );
 };

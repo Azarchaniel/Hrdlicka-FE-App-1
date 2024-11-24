@@ -53,7 +53,7 @@ const CalculationsPage = ({numberOfCalculations}: Props) => {
         const calculated = calcResults.length;
 
         setToast({
-            message: `You run out of time! You have calculated ${calculated} of ${numberOfCalculations} calculations.`,
+            message: `You ran out of time! You have calculated ${calculated} of ${numberOfCalculations} calculations.`,
             severity: "error",
         });
     }
