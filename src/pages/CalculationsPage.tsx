@@ -59,18 +59,25 @@ const CalculationsPage = ({numberOfCalculations}: Props) => {
     }
 
     return (
-        <Stack direction="column" sx={{justifyContent: "space-between"}}>
-            <Grid container spacing={2}>
+        <Stack direction="column" height="100%" display="flex">
+            <Grid container spacing={2} paddingBottom={10} paddingTop={5}>
                 {renderCalculations()}
             </Grid>
 
             <Stack
                 direction="row"
+                style={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    width: "98%",
+                    backgroundColor: "white",
+                }}
                 sx={{
                     justifyContent: "space-between",
                     alignItems: "center",
                 }}
-                p={1}
+                p={2}
             >
                 <span>Finished: {calcResults.length}/{numberOfCalculations}</span>
                 <Timer

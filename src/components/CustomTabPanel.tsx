@@ -5,10 +5,11 @@ interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
+    style?: React.CSSProperties;
 }
 
 const CustomTabPanel = (props: TabPanelProps) => {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, style, ...other} = props;
 
     return (
         <div
@@ -16,9 +17,15 @@ const CustomTabPanel = (props: TabPanelProps) => {
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
+            style={style}
             {...other}
         >
-            {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+            {value === index &&
+                <Box
+                    display="flex"
+                    height="90vh"
+                    justifyContent="center"
+                    sx={{p: 3}}>{children}</Box>}
         </div>
     );
 }

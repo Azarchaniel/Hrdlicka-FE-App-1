@@ -19,21 +19,23 @@ const HomePage: React.FC = () => {
     }
 
     return (
-        <>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box height="100vh" display="flex" flexDirection="column">
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}} className="top-menu">
                 <Tabs value={activeTab} onChange={handleChange} aria-label="basic tabs example" centered>
-                    <Tab label="Home" />
+                    <Tab label="Home"/>
                     <Tab label="Calculations" disabled={activeTab !== 1} aria-disabled={activeTab !== 1}/>
                 </Tabs>
             </Box>
 
+
             <CustomTabPanel value={activeTab} index={0}>
-                <NoCPage onSubmit={onSubmitNoC} />
+                <NoCPage onSubmit={onSubmitNoC}/>
             </CustomTabPanel>
             <CustomTabPanel value={activeTab} index={1}>
-                <CalculationsPage numberOfCalculations={numberOfCalculations} />
+                <CalculationsPage numberOfCalculations={numberOfCalculations}/>
             </CustomTabPanel>
-        </>
+
+        </Box>
     )
 }
 
