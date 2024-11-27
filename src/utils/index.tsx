@@ -18,6 +18,7 @@ export const generateCalculations = (numOfCalculations: number): ICalculation[] 
                 break;
 
             case '-':
+                // if result is negative, switch the place
                 if (firstNumber < secondNumber) {
                     [firstNumber, secondNumber] = [secondNumber, firstNumber];
                 }
@@ -29,6 +30,7 @@ export const generateCalculations = (numOfCalculations: number): ICalculation[] 
                 break;
 
             case '÷':
+                // Modulo - so the result is not float
                 while (firstNumber % secondNumber !== 0) {
                     firstNumber = Math.floor(Math.random() * 10) + 1;
                     secondNumber = Math.floor(Math.random() * 10) + 1;
